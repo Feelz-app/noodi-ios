@@ -11,36 +11,54 @@ workflows:
       xcode: latest
       cocoapods: default
 
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.noodi.app
+
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: main
+          include: true
+          source: true
+
     scripts:
-      - name: Install NPM dependencies
+      - name: Install dependencies
         script: |
           npm install
+          npm install @capacitor/core @capacitor/cli @capacitor/ios
 
-      - name: Install Capacitor iOS platform
-        script: |
-          npm install @capacitor/ios @capacitor/core @capacitor/cli
-
-      - name: Sync iOS project
+      - name: Sync Capacitor iOS
         script: |
           npx cap add ios || true
           npx cap sync ios
 
-      - name: Install CocoaPods dependencies
+      - name: Install CocoaPods
         script: |
           cd ios/App
           pod install
           cd ../..
 
-      - name: Build IPA
+      - name: Build unsigned archive with automatic signing assets
         script: |
           xcode-project use-profiles
+
           if [ -d "ios/App/App.xcodeproj" ]; then
+            PROJECT_PATH="ios/App/App.xcodeproj"
             xcode-project build-ipa \
-              --project "ios/App/App.xcodeproj" \
-              --scheme "App"
+              --project "$PROJECT_PATH" \
+              --scheme "App" \
+              --export-method app-store
+          elif [ -d "ios/App/App.xcworkspace" ]; then
+            WORKSPACE_PATH="ios/App/App.xcworkspace"
+            xcode-project build-ipa \
+              --workspace "$WORKSPACE_PATH" \
+              --scheme "App" \
+              --export-method app-store
           else
-            echo "iOS project not found after sync"
-            find ios -maxdepth 4 -type f | head -n 100
+            echo "iOS project/workspace not found after sync"
+            find ios -maxdepth 4 -type f | head -n 200
             exit 1
           fi
 
