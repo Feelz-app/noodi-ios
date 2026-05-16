@@ -1,0 +1,392 @@
+:root {
+  color-scheme: dark;
+  --bg: #030304;
+  --ink: #fff8f2;
+  --muted: #b8b0ab;
+  --quiet: #817873;
+  --gold: #d7bd82;
+  --gold-bright: #f0dca8;
+  --plum: #1c080f;
+  --line: rgba(255, 255, 255, 0.12);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 18%, rgba(255, 255, 255, 0.055), transparent 24%),
+    radial-gradient(circle at 50% 76%, rgba(28, 8, 15, 0.34), transparent 38%),
+    linear-gradient(135deg, #050405 0%, #030304 42%, #090507 100%);
+  color: var(--ink);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+button {
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+}
+
+.gateway-shell {
+  position: relative;
+  width: min(100%, 430px);
+  min-height: 100dvh;
+  margin: 0 auto;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 18%, rgba(255, 255, 255, 0.055), transparent 23%),
+    radial-gradient(circle at 50% 70%, rgba(28, 8, 15, 0.26), transparent 39%),
+    linear-gradient(180deg, rgba(5, 4, 5, 0.98), rgba(3, 3, 4, 0.99) 54%, rgba(7, 4, 6, 0.98));
+}
+
+.gateway-shell::before {
+  content: "";
+  position: absolute;
+  inset: -18%;
+  background:
+    radial-gradient(circle at 50% 28%, rgba(255, 255, 255, 0.13), transparent 12%),
+    radial-gradient(circle at 50% 46%, rgba(215, 189, 130, 0.075), transparent 20%),
+    radial-gradient(circle at 50% 78%, rgba(28, 8, 15, 0.22), transparent 28%);
+  filter: blur(14px);
+  pointer-events: none;
+}
+
+.gateway-screen {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 20px;
+  padding: 34px 28px calc(30px + var(--safe-bottom));
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(16px) scale(0.985);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+
+.gateway-screen.active {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+}
+
+.gateway-screen--launch {
+  align-content: center;
+  padding-bottom: calc(72px + var(--safe-bottom));
+}
+
+.gateway-screen--welcome,
+.gateway-screen--enter {
+  align-content: center;
+}
+
+.noodi-logo {
+  display: block;
+  width: 116px;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 28px 52px rgba(0, 0, 0, 0.72));
+}
+
+.noodi-logo--hero {
+  width: min(58vw, 228px);
+  margin-bottom: 18px;
+}
+
+.noodi-logo--mark {
+  width: 154px;
+  position: relative;
+  z-index: 1;
+}
+
+.noodi-logo--enter {
+  width: 168px;
+  margin-bottom: 12px;
+}
+
+.halo {
+  position: absolute;
+  top: 9%;
+  left: 50%;
+  width: 292px;
+  height: 292px;
+  border: 1px solid rgba(215, 189, 130, 0.11);
+  border-radius: 50%;
+  transform: translateX(-50%);
+  animation: breathe 5.6s ease-in-out infinite;
+}
+
+.halo::before,
+.halo::after {
+  content: "";
+  position: absolute;
+  border: 1px solid rgba(255, 255, 255, 0.075);
+  border-radius: inherit;
+}
+
+.halo::before {
+  inset: 34px;
+}
+
+.halo::after {
+  inset: 76px;
+}
+
+.eyebrow {
+  margin: 0;
+  color: rgba(215, 189, 130, 0.8);
+  font-size: 11px;
+  font-weight: 850;
+  letter-spacing: 1.7px;
+  line-height: 1.2;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+h1,
+h2,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  margin-bottom: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(66px, 18vw, 90px);
+  font-weight: 400;
+  letter-spacing: 1px;
+  line-height: 0.92;
+  text-align: center;
+}
+
+h2 {
+  max-width: 360px;
+  margin-bottom: 2px;
+  font-size: clamp(43px, 11vw, 58px);
+  font-weight: 850;
+  letter-spacing: -0.8px;
+  line-height: 0.98;
+  text-align: center;
+}
+
+.lead,
+.statement p,
+.age-panel p,
+.safety-footer {
+  max-width: 340px;
+  margin-bottom: 0;
+  color: var(--muted);
+  font-size: 17px;
+  line-height: 1.52;
+  text-align: center;
+}
+
+.lead--small {
+  max-width: 300px;
+}
+
+.cinematic-mark {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: min(100%, 340px);
+  min-height: 284px;
+  margin-bottom: -8px;
+}
+
+.cinematic-mark::before {
+  content: "";
+  position: absolute;
+  width: 236px;
+  height: 236px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.13), transparent 62%);
+  filter: blur(4px);
+}
+
+.cinematic-mark span {
+  position: absolute;
+  width: 248px;
+  height: 248px;
+  border: 1px solid rgba(215, 189, 130, 0.16);
+  border-radius: 50%;
+  transform: rotate(24deg) scaleX(0.72);
+  animation: slowTurn 9s linear infinite;
+}
+
+.cinematic-mark span + span {
+  width: 292px;
+  height: 292px;
+  border-color: rgba(255, 255, 255, 0.08);
+  animation-duration: 13s;
+  animation-direction: reverse;
+}
+
+.statement {
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+}
+
+.gateway-button {
+  width: min(100%, 350px);
+  min-height: 60px;
+  border-radius: 999px;
+  padding: 0 22px;
+  font-weight: 850;
+  transition: transform 0.18s ease, opacity 0.18s ease, border-color 0.18s ease;
+}
+
+.gateway-button:active {
+  transform: scale(0.985);
+}
+
+.gateway-button--primary {
+  border: 1px solid rgba(255, 255, 255, 0.17);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.16), transparent 28%),
+    linear-gradient(120deg, #2a1218, #72404a 52%, #d7bd82);
+  box-shadow:
+    0 20px 54px rgba(0, 0, 0, 0.58),
+    0 0 42px rgba(215, 189, 130, 0.13),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  color: var(--ink);
+}
+
+.gateway-button--secondary {
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  background: rgba(255, 255, 255, 0.055);
+  color: var(--ink);
+}
+
+.gateway-button.loading {
+  opacity: 0.72;
+  pointer-events: none;
+}
+
+.age-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: grid;
+  place-items: center;
+  padding: 28px;
+  background:
+    radial-gradient(circle at 50% 54%, rgba(215, 189, 130, 0.13), transparent 24%),
+    rgba(3, 3, 4, 0.82);
+  backdrop-filter: blur(22px);
+}
+
+.age-modal[hidden] {
+  display: none;
+}
+
+.age-panel {
+  display: grid;
+  justify-items: center;
+  width: min(100%, 360px);
+  gap: 15px;
+  padding: 38px 0 0;
+}
+
+.age-panel .gateway-button:first-of-type {
+  margin-top: 22px;
+}
+
+.safety-footer {
+  position: absolute;
+  right: 34px;
+  bottom: calc(34px + var(--safe-bottom));
+  left: 34px;
+  max-width: none;
+  color: var(--quiet);
+  font-size: 12px;
+}
+
+.toast {
+  position: fixed;
+  right: 18px;
+  bottom: calc(18px + var(--safe-bottom));
+  left: 18px;
+  z-index: 20;
+  max-width: 390px;
+  margin: 0 auto;
+  padding: 14px 18px;
+  border: 1px solid rgba(215, 189, 130, 0.18);
+  border-radius: 999px;
+  background: rgba(14, 12, 15, 0.92);
+  color: var(--ink);
+  text-align: center;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.22s ease, transform 0.22s ease;
+  backdrop-filter: blur(18px);
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    opacity: 0.42;
+    transform: translateX(-50%) scale(0.96);
+  }
+  50% {
+    opacity: 0.9;
+    transform: translateX(-50%) scale(1.04);
+  }
+}
+
+@keyframes slowTurn {
+  from {
+    transform: rotate(24deg) scaleX(0.72);
+  }
+  to {
+    transform: rotate(384deg) scaleX(0.72);
+  }
+}
+
+@media (max-height: 720px) {
+  .gateway-screen {
+    gap: 16px;
+    padding-top: 24px;
+    padding-bottom: calc(24px + var(--safe-bottom));
+  }
+
+  .noodi-logo--hero {
+    width: min(50vw, 190px);
+  }
+
+  .cinematic-mark {
+    min-height: 218px;
+  }
+
+  .noodi-logo--mark,
+  .noodi-logo--enter {
+    width: 126px;
+  }
+
+  h2 {
+    font-size: 38px;
+  }
+
+  .lead,
+  .statement p,
+  .age-panel p {
+    font-size: 16px;
+  }
+}

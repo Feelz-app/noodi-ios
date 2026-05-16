@@ -1,0 +1,8 @@
+{
+  "appId": "com.noodi.app",
+  "appName": "Noodi",
+  "webDir": "web",
+  "server": {
+    "androidScheme": "https"
+  }
+}

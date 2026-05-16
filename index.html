@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#030304" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Noodi" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>Noodi</title>
+    <link rel="manifest" href="manifest.webmanifest?v=44" />
+    <link rel="stylesheet" href="styles.css?v=44" />
+  </head>
+  <body>
+    <main class="gateway-shell" aria-live="polite">
+      <section id="launchScreen" class="gateway-screen gateway-screen--launch active">
+        <div class="halo" aria-hidden="true"></div>
+        <img class="noodi-logo noodi-logo--hero" src="noodi-logo-clean.png" alt="Noodi" />
+        <p class="eyebrow">Private access portal</p>
+        <h1>Noodi</h1>
+        <p class="lead">A private creator experience built around elegance, boundaries, and respect.</p>
+      </section>
+
+      <section id="enterScreen" class="gateway-screen gateway-screen--enter">
+        <img class="noodi-logo noodi-logo--enter" src="noodi-logo-clean.png" alt="Noodi" />
+        <h2>Welcome Inside</h2>
+        <p class="lead lead--small">Continue to the secure Noodi experience.</p>
+        <button id="enterNoodi" class="gateway-button gateway-button--primary" type="button">Enter Noodi</button>
+        <p class="safety-footer">Online-only. Respect boundaries. No solicitation. Creator safety comes first.</p>
+      </section>
+
+      <section id="comingSoonScreen" class="gateway-screen gateway-screen--coming-soon">
+        <img class="noodi-logo noodi-logo--enter" src="noodi-logo-clean.png" alt="Noodi" />
+        <h2>Coming Soon</h2>
+        <p class="lead lead--small">Noodi web access is launching soon.</p>
+      </section>
+    </main>
+
+    <div id="ageGate" class="age-modal" role="dialog" aria-modal="true" aria-labelledby="ageTitle" hidden>
+      <div class="age-panel">
+        <p class="eyebrow">Confirmation required</p>
+        <h2 id="ageTitle">Adults Only</h2>
+        <p>Noodi is intended for adults 18 and older. By continuing, you confirm you are at least 18.</p>
+        <button id="exitGate" class="gateway-button gateway-button--secondary" type="button">Exit</button>
+        <button id="confirmAge" class="gateway-button gateway-button--primary" type="button">I am 18+</button>
+      </div>
+    </div>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script src="app.js?v=44"></script>
+  </body>
+</html>
