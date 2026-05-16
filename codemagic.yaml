@@ -29,23 +29,18 @@ workflows:
           pod install
           cd ../..
 
-      - name: Build IPA
-        script: |
-          if [ -d "ios/App/App.xcworkspace" ]; then
-            xcode-project use-profiles
-            xcode-project build-ipa \
-              --workspace "ios/App/App.xcworkspace" \
-              --scheme "App"
-          elif [ -d "ios/App/App.xcodeproj" ]; then
-            xcode-project use-profiles
-            xcode-project build-ipa \
-              --project "ios/App/App.xcodeproj" \
-              --scheme "App"
-          else
-            echo "iOS project not found after sync"
-            find ios -maxdepth 4 -type f | head -n 100
-            exit 1
-          fi
+- name: Build IPA
+  script: |
+    xcode-project use-profiles
+    if [ -d "ios/App/App.xcodeproj" ]; then
+      xcode-project build-ipa \
+        --project "ios/App/App.xcodeproj" \
+        --scheme "App"
+    else
+      echo "iOS project not found after sync"
+      find ios -maxdepth 4 -type f | head -n 100
+      exit 1
+    fi
 
     artifacts:
       - build/ios/ipa/*.ipa
