@@ -11,9 +11,6 @@ workflows:
       ios_signing:
         distribution_type: app_store
         bundle_identifier: com.noodi.app
-      vars:
-        XCODE_WORKSPACE: "ios/App/App.xcworkspace"
-        XCODE_SCHEME: "App"
       node: 22
       xcode: latest
       cocoapods: default
@@ -38,9 +35,19 @@ workflows:
       - name: Build IPA
         script: |
           xcode-project use-profiles
-          xcode-project build-ipa \
-            --workspace "$XCODE_WORKSPACE" \
-            --scheme "$XCODE_SCHEME"
+          if [ -d "ios/App/App/App.xcworkspace" ]; then
+            xcode-project build-ipa --workspace "ios/App/App/App.xcworkspace" --scheme "App"
+          elif [ -d "ios/App/App.xcworkspace" ]; then
+            xcode-project build-ipa --workspace "ios/App/App.xcworkspace" --scheme "App"
+          elif [ -d "ios/App/App.xcodeproj" ]; then
+            xcode-project build-ipa --project "ios/App/App.xcodeproj" --scheme "App"
+          elif [ -d "ios/App/App/App.xcodeproj" ]; then
+            xcode-project build-ipa --project "ios/App/App/App.xcodeproj" --scheme "App"
+          else
+            echo "Could not find iOS workspace/project"
+            find ios -maxdepth 6 -type d | sort
+            exit 1
+          fi
 
     artifacts:
       - build/ios/ipa/*.ipa
