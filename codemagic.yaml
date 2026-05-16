@@ -15,14 +15,6 @@ workflows:
         distribution_type: app_store
         bundle_identifier: com.noodi.app
 
-    triggering:
-      events:
-        - push
-      branch_patterns:
-        - pattern: main
-          include: true
-          source: true
-
     scripts:
       - name: Install dependencies
         script: |
@@ -40,22 +32,17 @@ workflows:
           pod install
           cd ../..
 
-      - name: Build unsigned archive with automatic signing assets
+      - name: Build IPA
         script: |
           xcode-project use-profiles
-
           if [ -d "ios/App/App.xcodeproj" ]; then
-            PROJECT_PATH="ios/App/App.xcodeproj"
             xcode-project build-ipa \
-              --project "$PROJECT_PATH" \
-              --scheme "App" \
-              --export-method app-store
+              --project "ios/App/App.xcodeproj" \
+              --scheme "App"
           elif [ -d "ios/App/App.xcworkspace" ]; then
-            WORKSPACE_PATH="ios/App/App.xcworkspace"
             xcode-project build-ipa \
-              --workspace "$WORKSPACE_PATH" \
-              --scheme "App" \
-              --export-method app-store
+              --workspace "ios/App/App.xcworkspace" \
+              --scheme "App"
           else
             echo "iOS project/workspace not found after sync"
             find ios -maxdepth 4 -type f | head -n 200
