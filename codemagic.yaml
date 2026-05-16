@@ -1,38 +1,37 @@
-workflows:
-  noodi_ios_release:
-    name: Noodi iOS Release
-    max_build_duration: 60
-    instance_type: mac_mini_m2
-    environment:
-      vars:
-        BUNDLE_ID: "com.noodi.app"
-        XCODE_WORKSPACE: "ios/App/App.xcworkspace"
-        XCODE_SCHEME: "App"
-      node: 22
-      xcode: latest
-      cocoapods: default
-    scripts:
-      - name: Install NPM dependencies
-        script: |
-          npm install
-      - name: Install Capacitor iOS platform
-        script: |
-          npm install @capacitor/ios @capacitor/core @capacitor/cli
-      - name: Sync iOS project
-        script: |
-          npx cap add ios || true
-          npx cap sync ios
-      - name: Install CocoaPods dependencies
-        script: |
-          cd ios/App
-          pod install
-          cd ../..
-      - name: Build IPA
-        script: |
-          xcode-project use-profiles
-          xcode-project build-ipa \
-            --workspace "$XCODE_WORKSPACE" \
-            --scheme "$XCODE_SCHEME"
-    artifacts:
-      - build/ios/ipa/*.ipa
-      - /tmp/xcodebuild_logs/*.log
+scripts:
+  - name: Install NPM dependencies
+    script: |
+      npm install
+
+  - name: Install Capacitor iOS platform
+    script: |
+      npm install @capacitor/ios @capacitor/core @capacitor/cli
+
+  - name: Sync iOS project
+    script: |
+      npx cap add ios || true
+      npx cap sync ios
+
+  - name: Install CocoaPods dependencies
+    script: |
+      cd ios/App
+      pod install
+      cd ../..
+
+  - name: Build IPA
+    script: |
+      if [ -f "ios/App/App.xcworkspace" ]; then
+        xcode-project use-profiles
+        xcode-project build-ipa \
+          --workspace "ios/App/App.xcworkspace" \
+          --scheme "App"
+      elif [ -f "ios/App/App.xcodeproj" ]; then
+        xcode-project use-profiles
+        xcode-project build-ipa \
+          --project "ios/App/App.xcodeproj" \
+          --scheme "App"
+      else
+        echo "iOS project not found after sync"
+        find ios -maxdepth 4 -type f | head -n 100
+        exit 1
+      fi
