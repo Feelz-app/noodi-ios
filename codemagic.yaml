@@ -11,6 +11,8 @@ workflows:
       ios_signing:
         distribution_type: app_store
         bundle_identifier: com.noodi.app
+      vars:
+        BUNDLE_ID: "com.noodi.app"
       node: 22
       xcode: latest
       cocoapods: default
@@ -31,6 +33,10 @@ workflows:
           cd ios/App
           pod install
           cd ../..
+
+      - name: Set unique iOS build number
+        script: |
+          /usr/libexec/PlistBuddy -c "Set :CFBundleVersion $BUILD_NUMBER" ios/App/App/Info.plist
 
       - name: Build IPA
         script: |
