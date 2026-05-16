@@ -5,6 +5,8 @@ workflows:
     instance_type: mac_mini_m2
 
     environment:
+      vars:
+        BUNDLE_ID: "com.noodi.app"
       node: 22
       xcode: latest
       cocoapods: default
@@ -29,18 +31,18 @@ workflows:
           pod install
           cd ../..
 
-- name: Build IPA
-  script: |
-    xcode-project use-profiles
-    if [ -d "ios/App/App.xcodeproj" ]; then
-      xcode-project build-ipa \
-        --project "ios/App/App.xcodeproj" \
-        --scheme "App"
-    else
-      echo "iOS project not found after sync"
-      find ios -maxdepth 4 -type f | head -n 100
-      exit 1
-    fi
+      - name: Build IPA
+        script: |
+          xcode-project use-profiles
+          if [ -d "ios/App/App.xcodeproj" ]; then
+            xcode-project build-ipa \
+              --project "ios/App/App.xcodeproj" \
+              --scheme "App"
+          else
+            echo "iOS project not found after sync"
+            find ios -maxdepth 4 -type f | head -n 100
+            exit 1
+          fi
 
     artifacts:
       - build/ios/ipa/*.ipa
