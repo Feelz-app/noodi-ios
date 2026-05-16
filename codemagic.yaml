@@ -31,12 +31,12 @@ workflows:
 
       - name: Build IPA
         script: |
-          if [ -f "ios/App/App.xcworkspace" ]; then
+          if [ -d "ios/App/App.xcworkspace" ]; then
             xcode-project use-profiles
             xcode-project build-ipa \
               --workspace "ios/App/App.xcworkspace" \
               --scheme "App"
-          elif [ -f "ios/App/App.xcodeproj" ]; then
+          elif [ -d "ios/App/App.xcodeproj" ]; then
             xcode-project use-profiles
             xcode-project build-ipa \
               --project "ios/App/App.xcodeproj" \
